@@ -90,14 +90,31 @@ public class Place {
 
 	/**
 	 * Get a view of the exits from this Place, for navigation.
-	 * @return all the exits from this place.
+	 * Excludes secret exits which are still hidden.
+	 * @return all the visible exits from this place.
 	 */
 	public List<Exit> getVisibleExits() {
 		List<Exit> visible = new ArrayList<>();
 		for (Exit e : this.exits) {
-			visible.add(e);
+			if (e instanceof SecretExit && e.isSecret()) {
+				continue;
+			} else {
+				visible.add(e);
+			}
 		}
 		return visible;
+	}
+	
+	/**
+	 * Get a view of all the exits from this Place, for revealing secret exits.
+	 * @return all the available exits from this place.
+	 */
+	public List<Exit> getAllExits() {
+		List<Exit> exitList = new ArrayList<>();
+		for (Exit e : this.exits) {
+			exitList.add(e);
+		}
+		return exitList;
 	}
 	
 	/**

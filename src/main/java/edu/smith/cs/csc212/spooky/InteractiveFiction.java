@@ -64,9 +64,13 @@ public class InteractiveFiction {
 				} else {
 					continue;
 				}
-			} else if (action.equals("help")) {
+			} else if (action.equals("help")) { //give the player some help
 				System.out.println("To select an action to try, type its number and hit enter.\n" + "To quit, type q, quit, or escape.");
 				continue;
+			} else if (action.equals("search")) { //reveal secret exits
+				for (Exit e : here.getAllExits()) {
+					e.search();
+				}
 			}
 
 			// From here on out, what they typed better be a number!

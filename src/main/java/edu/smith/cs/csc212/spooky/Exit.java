@@ -67,6 +67,21 @@ public class Exit {
 	}
 	
 	/**
+	 * Is the exit secret. On Exit always returns false.
+	 * @return if the exit is secret
+	 */
+	public boolean isSecret() {
+		return false;
+	}
+	
+	/**
+	 * Does nothing on exit.
+	 */
+	public void search() {
+		
+	}
+	
+	/**
 	 * The other half of hashCode that lets us put it in a HashMap or HashSet.
 	 */
 	public boolean equals(Object other) {
