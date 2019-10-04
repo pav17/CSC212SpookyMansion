@@ -23,6 +23,10 @@ public class Place {
 	 */
 	private String description;
 	/**
+	 * Has this place been visited
+	 */
+	public boolean visited;
+	/**
 	 * Whether reaching this place ends the game.
 	 */
 	private boolean terminal;
@@ -70,6 +74,18 @@ public class Place {
 	 */
 	public String getDescription() {
 		return this.description;
+	}
+	
+	/**
+	 * Change visited when this place has been visited.
+	 * If it has, inform the player.
+	 */
+	public void visit() {
+		if (this.visited == false) {
+			this.visited = true;
+		} else {
+			System.out.println("It feels like you've been here before...");
+		}
 	}
 
 	/**

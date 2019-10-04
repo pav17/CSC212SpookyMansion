@@ -32,6 +32,7 @@ public class InteractiveFiction {
 			System.out.println();
 			System.out.println("... --- ...");
 			System.out.println(here.getDescription());
+			here.visit();
 
 			// Game over after print!
 			if (here.isTerminalState()) {
@@ -57,12 +58,15 @@ public class InteractiveFiction {
 			// Do not uppercase action -- I have lowercased it.
 			String action = words.get(0).toLowerCase().trim();
 
-			if (action.equals("quit")) {
+			if (action.equals("quit") || action.equals("escape") || action.equals("q")) {
 				if (input.confirm("Are you sure you want to quit?")) {
 					return place;
 				} else {
 					continue;
 				}
+			} else if (action.equals("help")) {
+				System.out.println("To select an action to try, type its number and hit enter.\n" + "To quit, type q, quit, or escape.");
+				continue;
 			}
 
 			// From here on out, what they typed better be a number!
