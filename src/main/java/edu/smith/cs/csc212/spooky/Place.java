@@ -19,9 +19,13 @@ public class Place {
 	 */
 	private String id;
 	/**
-	 * What to tell the user about this place.
+	 * What to tell the user about this place in the day.
 	 */
 	private String description;
+	/**
+	 * What to tell the user about this place at night.
+	 */
+	private String nightDescription;
 	/**
 	 * Has this place been visited
 	 */
@@ -37,9 +41,10 @@ public class Place {
 	 * @param description - the user-facing description of the place.
 	 * @param terminal - whether this place ends the game.
 	 */
-	protected Place(String id, String description, boolean terminal) {
+	protected Place(String id, String description, String nightDescription, boolean terminal) {
 		this.id = id;
 		this.description = description;
+		this.nightDescription = nightDescription;
 		this.exits = new ArrayList<>();
 		this.terminal = terminal;
 	}
@@ -70,10 +75,15 @@ public class Place {
 	
 	/**
 	 * The narrative description of this place.
+	 * @param timer - The instance of GameTimer to use to check if it is night.
 	 * @return what we show to a player about this place.
 	 */
-	public String getDescription() {
-		return this.description;
+	public String getDescription(GameTime timer) {
+		if (timer.isNightTime()) {
+			return this.nightDescription;
+		} else {
+			return this.description;
+		}
 	}
 	
 	/**
@@ -121,20 +131,22 @@ public class Place {
 	 * This is a terminal location (good or bad).
 	 * @param id - this is the id of the place (for creating {@link Exit} objects that go here).
 	 * @param description - this is the description of the place.
+	 * @param nightDescription - this is the description of the place at night.
 	 * @return the Place object.
 	 */
-	public static Place terminal(String id, String description) {
-		return new Place(id, description, true);
+	public static Place terminal(String id, String description, String nightDescription) {
+		return new Place(id, description, nightDescription,true);
 	}
 	
 	/**
 	 * Create a place with an id and description.
 	 * @param id - this is the id of the place (for creating {@link Exit} objects that go here).
 	 * @param description - this is what we show to the user.
+	 * @param nightDescription - this is the description of the place at night.
 	 * @return the new Place object (add exits to it).
 	 */
-	public static Place create(String id, String description) {
-		return new Place(id, description, false);
+	public static Place create(String id, String description, String nightDescription) {
+		return new Place(id, description, nightDescription,false);
 	}
 	
 	/**

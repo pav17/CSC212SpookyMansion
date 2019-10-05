@@ -16,9 +16,10 @@ public class InteractiveFiction {
 	 * This method actually plays the game.
 	 * @param input - a helper object to ask the user questions.
 	 * @param game - the places and exits that make up the game we're playing.
+	 * @param timer - the instance of GameTime to use for this game.
 	 * @return where - the place the player finished.
 	 */
-	static String runGame(TextInput input, GameWorld game) {
+	static String runGame(TextInput input, GameWorld game, GameTime timer) {
 		// This is the current location of the player (initialize as start).
 		// Maybe we'll expand this to a Player object.
 		String place = game.getStart();
@@ -26,19 +27,18 @@ public class InteractiveFiction {
 		// Play the game until quitting.
 		// This is too hard to express here, so we just use an infinite loop with breaks.
 		while (true) {
-			// Print the description of where you are.
+			// Print the description of where you are and the time.
 			Place here = game.getPlace(place);
-			
 			System.out.println();
 			System.out.println("... --- ...");
-			System.out.println(here.getDescription());
+			System.out.println(here.getDescription(timer));
+			System.out.println(timer.GetClockTime());
 			here.visit();
 
 			// Game over after print!
 			if (here.isTerminalState()) {
 				break;
 			}
-
 			// Show a user the ways out of this place.
 			List<Exit> exits = here.getVisibleExits();
 
@@ -71,6 +71,11 @@ public class InteractiveFiction {
 				for (Exit e : here.getAllExits()) {
 					e.search();
 				}
+				continue;
+			} else if (action.equals("rest")) { //stay in place for 2 hours
+				timer.increaseHour();
+				timer.increaseHour();
+				continue;
 			}
 
 			// From here on out, what they typed better be a number!
@@ -90,6 +95,7 @@ public class InteractiveFiction {
 			// Move to the room they indicated.
 			Exit destination = exits.get(exitNum);
 			place = destination.getTarget();
+			timer.increaseHour();
 		}
 
 		return place;
@@ -105,12 +111,15 @@ public class InteractiveFiction {
 
 		// This is the game we're playing.
 		GameWorld game = new SpookyMansion();
-
+		
+		GameTime timer = new GameTime(0);
+		
 		// Actually play the game.
-		runGame(input, game);
+		runGame(input, game, timer);
 
 		// You get here by typing "quit" or by reaching a Terminal Place.
-		System.out.println("\n\n>>> GAME OVER <<<");
+		System.out.println("\n\n>>> GAME OVER <<<\n");
+		System.out.println("You spent " + timer.getTotalTime() + " hours in the spooky mansion.");
 	}
 
 }
